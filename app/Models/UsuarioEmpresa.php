@@ -14,9 +14,13 @@ class UsuarioEmpresa extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = "usuario_empresa";
+    
     protected $fillable = [
-        "id_usuario","id_empresa","tipo_vinculo", "status" 
+        "id", "id_usuario", "id_empresa", "tipo_vinculo", "status" 
     ];
+
+    protected $foreign = ["id_usuario", "id_empresa",];
 
     protected $cast = [
         'tipo_vinculo' => EmpresaTipoVinculo::class,
@@ -40,5 +44,13 @@ class UsuarioEmpresa extends Model
      */
     public function getStatusAttribute(string $value) : string {
         return getStatusUsuarioEmpresa($value);
+    }
+
+    public function empresa() {
+        return $this->hasOne(Empresa::class, "id", "id_empresa");
+    }
+
+    public function usuario() {
+        return $this->hasOne(User::class, "id", "id_usuario");
     }
 }

@@ -19,7 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password',];
+    protected $fillable = ['id', 'name', 'email', 'password',];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -48,14 +48,14 @@ class User extends Authenticatable
     /* -------------------------------- Relations ------------------------------- */
     
     public function endereco() {
-        $this->hasMany(Endereco::class, "id_usuario", "id");
+        return $this->hasMany(Endereco::class, "id_usuario", "id");
     }
 
     public function contato() {
-        $this->hasMany(Contato::class, "id_usuario", "id");
+        return $this->hasMany(Contato::class, "id_usuario", "id");
     }
 
-    public function empresas() {
-        $this->hasMany(UsuarioEmpresa::class, "id_usuario", "id");
+    public function usuarioEmpresas() {
+        return $this->hasMany(UsuarioEmpresa::class, 'id_usuario', 'id');
     }
 }
