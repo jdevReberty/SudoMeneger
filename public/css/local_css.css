@@ -1,0 +1,25 @@
+
+@media (max-width: 576px)  {
+    .d-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        text-align: center;
+    }
+    .btn-menu {
+        width: 10rem;
+        height: 5rem;
+        margin-bottom: 2rem;
+    }
+}
+@media (min-width: 992px) {
+    .d-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        text-align: center;
+    }
+    .btn-menu {
+        width: 12rem;
+        height: 6rem;
+        margin-bottom: 2rem;
+    }
+}
