@@ -11,6 +11,8 @@ class Endereco extends Model
 {
     use HasFactory;
 
+    protected $table = "enderecos";
+
     protected $fillable = [
         "id_usuario",
         "id_empresa",

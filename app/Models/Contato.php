@@ -11,6 +11,9 @@ class Contato extends Model
 {
     use HasFactory;
 
+    protected $table = "contatos";
+
+
     protected $fillable = [
         "id_usuario",
         "id_empresa",
