@@ -8,32 +8,56 @@
     <meta name="author" content="">
     <title>@yield('title')</title>
     <!-- Custom fonts for this template-->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{asset("assets/vendor/fontawesome-free/css/all.min.css")}}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{{asset("assets/css/sb-admin-2.min.css")}}" rel="stylesheet">
+    <link href="{{asset("css/local_css.css")}}" rel="stylesheet">
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> --}}
 
     @yield('css')
   </head>
   <body>
-    <!-- As a link -->
-    <nav class="position-fixed mt-3 ml-3">
-        <img 
-          src="https://sudoconsultants.com/wp-content/uploads/2022/10/sudo-full-logo.png" 
-          alt=""
-          width="100"
-          height="25"
-        >
-    </nav>
-
-    <main class="container" style="">
-        <div class="row row-cols-1 row-cols-lg-1 g-2 g-lg-3">
-            <div class="col">
-                @yield('content')
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <x-sidebar />
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               <x-navbar />
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">@yield("title_page")</h1>
+                    <main>
+                        @yield('content')
+                    </main>
+                </div>
+                <!-- /.container-fluid -->
             </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <x-footer />
+            <!-- End of Footer -->
         </div>
-    </main>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <x-logout_modal />
+    
+    {{-- <main class="container" style="">
+        <div class="col">
+        </div>
+        <div class="row row-cols-1 row-cols-lg-1 g-2 g-lg-3">
+        </div>
+    </main> --}}
 
 
     @yield('script')
