@@ -11,6 +11,8 @@ class Empresa extends Model
 {
     use HasFactory;
 
+    protected $table = "empresas";
+
     protected $fillable = [
       "nome","tipo_empresa","cnpj"  
     ];
@@ -27,5 +29,9 @@ class Empresa extends Model
      */
     public function getTipoEmpresaAttribute(string $value) : string {
         return getStatusTipoEmpresa($value);
+    }
+
+    public function usuarioEmpresa() {
+        return $this->hasMany(UsuarioEmpresa::class, 'id_empresa', 'id');
     }
 }
