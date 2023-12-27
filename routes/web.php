@@ -5,6 +5,8 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\Mail\MailController;
+use App\Http\Controllers\MovimentacaoController;
+use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\UsuarioController;
 use App\Mail\DefaultPassword;
 use App\Models\Contato;
@@ -65,9 +67,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [LoginController::class, 'home'])->name('home');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     Route::prefix('/empresa')->group(function() {
-        Route::get('/{empresa}', [EmpresaController::class, 'index'])->name('empresa.index');
         Route::match(['get', 'post'], '/create', [EmpresaController::class, 'create'])->name('empresa.create');
+        Route::get('/{empresa}', [EmpresaController::class, 'index'])->name('empresa.index');
         Route::post('/store', [EmpresaController::class, 'store'])->name('empresa.store');
+        Route::get('/{empresa}/solicitar_vinculo', [EmpresaController::class, 'solicitar_vinculo'])->name('empresa.solicitar_vinculo');
+        
+        Route::get('/{usuarioEmpresa}/aceitar_vinculo', [EmpresaController::class, 'aceitar_vinculo'])->name('empresa.aceitar_vinculo');
+        Route::get('/{usuarioEmpresa}/negar_vinculo', [EmpresaController::class, 'negar_vinculo'])->name('empresa.negar_vinculo');
+        Route::get('/{usuarioEmpresa}/recidir_vinculo', [EmpresaController::class, 'recidir_vinculo'])->name('empresa.recidir_vinculo');
+
+
         Route::prefix('/contato')->group(function() {
             Route::get('/{empresa}/cadastrar', [EmpresaController::class, 'create_contato'])->name('empresa.create_contato');
             Route::post('/{empresa}/store', [EmpresaController::class, 'store_contato'])->name('empresa.store_contato');
@@ -88,6 +97,33 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{usuario}/cadastrar', [UsuarioController::class, 'create_endereco'])->name('usuario.create_endereco');
             Route::post('/{usuario}/store', [UsuarioController::class, 'store_endereco'])->name('usuario.store_endereco');
         });
+    });
+
+    Route::prefix('financeiro')->group(function() {
+        Route::get('/{empresa}', [MovimentacaoController::class, 'index'])->name('movimentacao.index');
+        Route::get('/{empresa}/pagamento_funcionario', [MovimentacaoController::class, 'create_pagamento_funcionario'])->name('movimentacao.create_pagamento_funcionario');
+        Route::post('/{empresa}/pagamento_funcionario/store', [MovimentacaoController::class, 'store_pagamento_funcionario'])->name('movimentacao.store_pagamento_funcionario');
+
+        Route::prefix('/comercio')->group(function() {
+            Route::get('/{empresa}/nova/movimentacao', [MovimentacaoController::class, 'create_movimentacao_comercio'])->name('movimentacao.create_movimentacao_comercio');
+            Route::post('/{empresa}/nova/movimentacao/store', [MovimentacaoController::class, 'store_movimentacao_comercio'])->name('movimentacao.store_movimentacao_comercio');
+        });
+
+        Route::prefix('/servico')->group(function() {
+            Route::get('/{servico}/nova/movimentacao', [MovimentacaoController::class, 'create_movimentacao_servico'])->name('movimentacao.create_movimentacao_servico');
+            Route::post('/{servico}/nova/movimentacao/store', [MovimentacaoController::class, 'store_movimentacao_servico'])->name('movimentacao.store_movimentacao_servico');
+        });
+    });
+
+    Route::prefix('/{empresa}/servicos')->group(function() {
+        Route::get('/index', [ServicoController::class, 'index'])->name('servico.index');
+        Route::get('/create', [ServicoController::class, 'create'])->name('servico.create');
+        Route::post('/store', [ServicoController::class, 'store'])->name('servico.store');
+        Route::get('/{servico}/edit', [ServicoController::class, 'edit'])->name('servico.edit');
+        Route::post('/{servico}/update', [ServicoController::class, 'update'])->name('servico.update');
+        Route::get('/{servico}/finalizar', [ServicoController::class, 'finalizar'])->name('servico.finalizar');
+        Route::get('/{servico}/cancelar', [ServicoController::class, 'cancelar'])->name('servico.cancelar');
+        Route::get('/{servico}/reabrir', [ServicoController::class, 'reabrir'])->name('servico.reabrir');
     });
 });
 
