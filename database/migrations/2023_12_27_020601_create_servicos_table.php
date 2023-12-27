@@ -18,9 +18,9 @@ class CreateServicosTable extends Migration
             $table->id();
             $table->foreignId('id_empresa');
             $table->string('orcamento_previo');
-            $table->string('orcamento_final');
+            $table->string('orcamento_final')->nullable();
             $table->enum("status", array_column(ServicoStatus::cases(), 'name'));
-            $table->text('descricao');
+            $table->text('descricao')->nullable();
             $table->timestampsTz();
              
             $table->foreign("id_empresa")->references("id")->on("empresas");
