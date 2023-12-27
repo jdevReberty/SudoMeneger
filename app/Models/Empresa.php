@@ -34,4 +34,16 @@ class Empresa extends Model
     public function usuarioEmpresa() {
         return $this->hasMany(UsuarioEmpresa::class, 'id_empresa', 'id');
     }
+
+    public function servicos() {
+        return $this->hasMany(Empresa::class, 'id_empresa', 'id');
+    }
+
+    public function contato() {
+        return $this->hasMany(Contato::class, 'id_empresa', 'id');
+    }
+
+    public function endereco() {
+        return $this->hasMany(Endereco::class, 'id_empresa', 'id');
+    }
 }
