@@ -54,11 +54,20 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Geral</h6>
                         <a class="collapse-item" href="#">Financeiro</a>
-                        <a class="collapse-item" href="#">Gerenciar Nota Fiscal</a>
-                        <a class="collapse-item" href="#">Inserir Comprovante</a>
+                        <a class="collapse-item" href="#">Documentação</a>
                         @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
                             <h6 class="collapse-header">Serviço</h6>
                             <a class="collapse-item" href="#">Gerenciar Serviços</a>
+                        @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
+                            <h6 class="collapse-header">Comércio</h6>
+                            <a class="collapse-item" href="#">Relatórios de Venda</a>
+                            <a class="collapse-item" href="#">Relatórios de Compra</a>
+                        @else
+                            <h6 class="collapse-header">Serviço</h6>
+                            <a class="collapse-item" href="#">Gerenciar Serviços</a>
+                            <h6 class="collapse-header">Comércio</h6>
+                            <a class="collapse-item" href="#">Relatórios de Venda</a>
+                            <a class="collapse-item" href="#">Relatórios de Compra</a>
                         @endif
                     </div>
                 </div>
