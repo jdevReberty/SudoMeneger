@@ -27,6 +27,7 @@ class Authenticate
                 $request['name'] = $data->givenName.' '.$data->familyName;
                 $request['email'] = $data->email;
                 $request['password'] = \Illuminate\Support\Str::random(8);
+                $request['avatar'] = $data->picture;
 
                 $userFound = User::create($request->toArray());
 
