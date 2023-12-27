@@ -27,6 +27,17 @@ class GoogleClient
         $this->client->addScope('profile');
     }
 
+    public function initRegister()
+    {
+        $guzzleClient = new \GuzzleHttp\Client(['curl' => [CURLOPT_SSL_VERIFYPEER => false, ]]);
+        $this->client->setHttpClient($guzzleClient);
+        $this->client->setClientId($_ENV['GOOGLE_CLIENT_ID']);
+        $this->client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+        $this->client->setRedirectUri('http://localhost:8000/register');
+        $this->client->addScope('email');
+        $this->client->addScope('profile');
+    }
+
     public function authenticated()
     {
         if (isset($_GET['code'])) {
