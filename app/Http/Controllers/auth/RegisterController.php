@@ -74,6 +74,6 @@ class RegisterController extends Controller
     }
 
     public function password_edit(User $user) {
-        return view('auth.forgot_password', compact('user'));
+        return view('auth.resete_default_password', compact('user'));
     }
 }
