@@ -2,11 +2,12 @@
 
 namespace App\Enums;
 
-enum TipoEmpresa: string 
+enum ServicoStatus: string 
 {
-    case comercio = "Comércio";
-    case servico = "Serviço";
-    case comercio_servico = "Serviço e Comércio";
+    case ativo = "Ativo";
+    case fechado = "Fechado";
+    case reaberto = "Reaberto";
+    case cancelado = "Cancelado";
 
     public static function fromValue(string $name) : string {
         foreach(self::cases() as $case) {
