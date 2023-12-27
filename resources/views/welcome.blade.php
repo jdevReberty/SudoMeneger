@@ -29,7 +29,7 @@
                     <h1 class="h3 text-gray-800">{{$empresa->nome}}</h1>
                     @if ($usuario_empresa->tipo_vinculo == App\Enums\EmpresaTipoVinculo::titular->value)
                         <div class="d-flex justify-content-end">
-                            <a class="btn btn-sm btn-success" href="#">
+                            <a class="btn btn-sm btn-success" href="{{ route('empresa.index', ['empresa' => $empresa->id]) }}">
                                 Gerenciar Empresa  
                             </a>
                         </div> 
@@ -38,14 +38,18 @@
                 <hr>
                 <h1 class="h3 text-gray-800 mx-2 mb-4">Ações</h1>
                 <div class="d-grid">
+                    <x-dashboard.item_acao titulo="Financeiro" link="#"/>
+                    <x-dashboard.item_acao titulo="Documentação" link="#"/>
                     @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
                         <x-dashboard.item_acao titulo="Gerenciar Serviços" link="#"/>
-                    @else 
-                        <x-dashboard.item_acao titulo="Gerenciar movimentações" link="#"/>
+                    @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
+                        <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#"/>
+                        <x-dashboard.item_acao titulo="Relatórios de Compras" link="#"/>
+                    @else
+                        <x-dashboard.item_acao titulo="Gerenciar Serviços" link="#"/>
+                        <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#"/>
+                        <x-dashboard.item_acao titulo="Relatórios de Compras" link="#"/>
                     @endif
-                    <x-dashboard.item_acao titulo="Financeiro" link="#"/>
-                    <x-dashboard.item_acao titulo="Gerenciar Nota Fiscal" link="#"/>
-                    <x-dashboard.item_acao titulo="Inserir Comprovante" link="#"/>
                 </div>
             </div>
         @endforeach
