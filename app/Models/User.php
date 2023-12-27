@@ -39,6 +39,11 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
     public function getUsualyName() : string {
         $array_name = explode(" ", $this->attributes['name']);
         $name = $array_name[0]." ".$array_name[count($array_name)-1];
