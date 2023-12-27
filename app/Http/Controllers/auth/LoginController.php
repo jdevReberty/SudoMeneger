@@ -5,6 +5,8 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
+use App\Services\Auth\Authenticate;
+use App\Services\Auth\GoogleClient;
 use App\Services\UsuarioServices;
 use Illuminate\{
     Http\Request,
@@ -16,11 +18,22 @@ use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
     public function __construct(
-        protected UsuarioServices $usuarioService
+        protected UsuarioServices $usuarioService,
+        protected GoogleClient $googleClient,
+        protected Authenticate $auth
     ){}
 
-    public function index() {
-        return view('auth.login');
+    public function index(Request $request) {
+        
+        /* -------------- geracao do código de autenticação via google -------------- */
+        $this->googleClient->init();
+        $authUrl = $this->googleClient->generateLink();
+
+        if($this->googleClient->authenticated()){
+            return $this->auth->authGoogle($this->googleClient->getData(), $request);
+        }
+
+        return view('auth.login', compact('authUrl'));
     }
     /**
      * Handle an authentication attempt.

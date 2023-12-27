@@ -39,7 +39,7 @@
                                         Login
                                     </button>
                                     <hr>
-                                    <a href="#" class="btn btn-google btn-user btn-block">
+                                    <a href="{{ $authUrl }}" class="btn btn-google btn-user btn-block">
                                         <i class="fab fa-google fa-fw"></i> Login com Google
                                     </a>
                                     <a href="#" class="btn btn-facebook btn-user btn-block">
