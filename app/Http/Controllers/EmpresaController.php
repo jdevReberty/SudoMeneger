@@ -25,16 +25,28 @@ class EmpresaController extends Controller
     }
 
     public function create(Request $request) {
-        $method = $request->method();
-        if($method != "GET") {
-            $empresas = $this->empresa->where("cnpj", "like", "%$request->cnpj%")->get();
-            $search = (Object)[
-                "pesquisa" => $request->cnpj,
-                "empresas" => $empresas
-            ];
-            return view("pages.empresa.create", compact('search'));
+        try {
+            $podeVincular = Auth::user()->usuarioEmpresas()
+                ->whereIn('tipo_vinculo', ['titular', 'funcionario'])
+                ->whereIn('status', ['ativo, pendente'])->get()->count() < 2;
+
+            if($podeVincular) {
+                $method = $request->method();
+                if($method != "GET") {
+                    $empresas = $this->empresa->where("cnpj", "like", "%$request->cnpj%")->get();
+                    $search = (Object)[
+                        "pesquisa" => $request->cnpj,
+                        "empresas" => $empresas
+                    ];
+                    return view("pages.empresa.create", compact('search'));
+                }
+                return view("pages.empresa.create");
+            } else {
+                throw new \Exception('Você já atingiu o limite de solicitação de vinculo ou cadastro de CNPJ');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['errors' => $th->getMessage()]);
         }
-        return view("pages.empresa.create");
     }
 
     public function store(CreateEmpresaRequest $request) {
@@ -57,6 +69,64 @@ class EmpresaController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->withErrors(["errors" => $th->getMessage()])->withInput();
+        }
+    }
+
+    public function solicitar_vinculo(Empresa $empresa) {
+        try {
+            $current = $this->usuarioEmpresa
+                ->where('id_usuario', Auth::user()->id)
+                ->where('id_empresa', $empresa->id)
+                ->get()->last();
+
+            if($current == null || $current->status == 'Recidido') {
+                $this->usuarioEmpresa->create([
+                    "id_usuario" => Auth::user()->id,
+                    "id_empresa" => $empresa->id,
+                    "tipo_vinculo" => EmpresaTipoVinculo::funcionario->name, 
+                    "status" => UsuarioEmpresaStatus::pendente->name,
+                ]);
+            } elseif($current->status == 'Negado') {
+                $current->update([
+                    "status" => UsuarioEmpresaStatus::pendente->name,
+                ]);
+            } else {
+                throw new \Exception("Não é possível solicitar vínculo novamente!");
+            }
+            return redirect()->route("home");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(["errors" => $th->getMessage()])->withInput();
+        }
+    }
+
+    public function aceitar_vinculo(UsuarioEmpresa $usuarioEmpresa) {
+        try {
+            if($usuarioEmpresa->status != 'Pendente') throw new \Exception("Solicitação já Finalizada!");
+            $usuarioEmpresa->update(['status' => 'ativo']);
+            return redirect()->route('empresa.index', ['empresa' => $usuarioEmpresa->id_empresa]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['errors' => $th->getMessage()]);
+        }
+    }
+
+    public function negar_vinculo(UsuarioEmpresa $usuarioEmpresa) {
+        try {
+            if($usuarioEmpresa->status != 'Pendente') throw new \Exception("Solicitação já Finalizada!");
+            $usuarioEmpresa->update(['status' => 'negado']);
+            return redirect()->route('empresa.index', ['empresa' => $usuarioEmpresa->id_empresa]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['errors' => $th->getMessage()]);
+        }
+    }
+
+    public function recidir_vinculo(UsuarioEmpresa $usuarioEmpresa) {
+        try {
+            if($usuarioEmpresa->status != 'Ativo') throw new \Exception("Não é possível recindir um funcionário que não está Ativo!");
+            $usuarioEmpresa->update(['status' => 'finalizado']);
+            return redirect()->route('empresa.index', ['empresa' => $usuarioEmpresa->id_empresa]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['errors' => $th->getMessage()]);
         }
     }
 
