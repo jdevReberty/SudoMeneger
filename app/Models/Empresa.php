@@ -36,7 +36,7 @@ class Empresa extends Model
     }
 
     public function servicos() {
-        return $this->hasMany(Empresa::class, 'id_empresa', 'id');
+        return $this->hasMany(Servico::class, 'id_empresa', 'id');
     }
 
     public function contato() {
@@ -45,5 +45,9 @@ class Empresa extends Model
 
     public function endereco() {
         return $this->hasMany(Endereco::class, 'id_empresa', 'id');
+    }
+
+    public function movimentacao() {
+        return $this->hasMany(Movimentacao::class, 'id_empresa', 'id');
     }
 }
