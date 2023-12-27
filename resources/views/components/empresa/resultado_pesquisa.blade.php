@@ -76,9 +76,9 @@
                                 <td>{{ $empresa->cnpj }}</td>
                                 <td>
                                     @if ($usuario_titular->id != Auth::user()->id)
-                                        <button class="btn btn-sm btn-success" title="Solicitar Vinculo">
+                                        <a href="{{ route('empresa.solicitar_vinculo', ['empresa' => $empresa->id]) }}" class="btn btn-sm btn-success" title="Solicitar Vinculo">
                                             <i class="fas fa-link"></i>
-                                        </button>
+                                        </a>
                                     @else 
                                         <button class="btn btn-sm btn-primary" title="Gerenciar Empresa">
                                             <i class="fas fa-pen-square"></i>
