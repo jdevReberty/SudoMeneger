@@ -49,11 +49,25 @@
 
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
+            @php
+                $titular = Auth::user()->usuarioEmpresas()
+                    ->where('tipo_vinculo', 'titular')
+                    ->where('status', 'ativo')
+                    ->first();
+                if($titular != null) {
+                    $empresa = $titular->empresa;
+                    $usuarioEmpresa = $empresa->usuarioEmpresa()->where('status', 'pendente')->get();
+                    $qtdPendentes = $usuarioEmpresa->count();
+                } else {
+                    $qtdPendentes = 0;
+                }
+                // dd($qtdPendentes);
+            @endphp
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <span class="badge badge-danger badge-counter">{{$qtdPendentes}}</span>
             </a>
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -61,7 +75,26 @@
                 <h6 class="dropdown-header">
                     Alerts Center
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                @if ($qtdPendentes > 0)
+                    @foreach ($usuarioEmpresa as $item)
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('empresa.index', ['empresa' => $item->id_empresa]) }}">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-warning">
+                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">Solicitação de vínculo</div>
+                                O usuário {{ $item->usuario->name }} está solicitando vínculo de funcionário
+                            </div>
+                        </a>
+                    @endforeach
+                @else
+                    <div>
+                        <div class="small text-gray-500">Nenhuma notificação no momento</div>
+                    </div>
+                @endif
+                {{-- <a class="dropdown-item d-flex align-items-center" href="#">
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
@@ -83,22 +116,12 @@
                         $290.29 has been deposited into your account!
                     </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-warning">
-                            <i class="fas fa-exclamation-triangle text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 2, 2019</div>
-                        Spending Alert: We've noticed unusually high spending for your account.
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a> --}}
             </div>
         </li>
 
-        <!-- Nav Item - Messages -->
+        {{-- <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -162,7 +185,7 @@
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
             </div>
-        </li>
+        </li> --}}
 
         <div class="topbar-divider d-none d-sm-block"></div>
 
