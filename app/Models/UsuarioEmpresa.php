@@ -36,6 +36,14 @@ class UsuarioEmpresa extends Model
     public function getTipoVinculoAttribute(string $value) : string {
         return getStatusTipoVinculoEmpresa($value);
     }
+
+    public function getCreatedAtAttribute($value) {
+        return date('d/m/Y H:m', strtotime($value));
+    }
+
+    public function getUpdatedAtAttribute($value) {
+        return date('d/m/Y H:m', strtotime($value));
+    }
     /**
      * Accesor to convert value by column to unum
      *
