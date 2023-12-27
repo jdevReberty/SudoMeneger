@@ -45,29 +45,37 @@
                 $empresa = $usuario_empresa->empresa()->first();
             @endphp
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo{{$usuario_empresa->id}}"
+                    aria-expanded="true" aria-controls="collapseTwo{{$usuario_empresa->id}}">
                     <i class="fas fa-building"></i>
                     <span>{{$empresa->nome}}</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo{{$usuario_empresa->id}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Geral</h6>
-                        <a class="collapse-item" href="#">Financeiro</a>
-                        <a class="collapse-item" href="#">Documentação</a>
-                        @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
-                            <h6 class="collapse-header">Serviço</h6>
-                            <a class="collapse-item" href="#">Gerenciar Serviços</a>
-                        @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
-                            <h6 class="collapse-header">Comércio</h6>
-                            <a class="collapse-item" href="#">Relatórios de Venda</a>
-                            <a class="collapse-item" href="#">Relatórios de Compra</a>
-                        @else
-                            <h6 class="collapse-header">Serviço</h6>
-                            <a class="collapse-item" href="#">Gerenciar Serviços</a>
-                            <h6 class="collapse-header">Comércio</h6>
-                            <a class="collapse-item" href="#">Relatórios de Venda</a>
-                            <a class="collapse-item" href="#">Relatórios de Compra</a>
+                        @if ($usuario_empresa->status == "Ativo")
+                            <h6 class="collapse-header">Geral</h6>
+                            <a class="collapse-item" href="{{ route('movimentacao.index', ['empresa' => $empresa->id]) }}">Financeiro</a>
+                            <a class="collapse-item" href="#">Documentação</a>
+                            @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
+                                <h6 class="collapse-header">Serviço</h6>
+                                <a class="collapse-item" href="{{ route('servico.index', ['empresa' => $empresa->id]) }}">Gerenciar Serviços</a>
+                            @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
+                                <h6 class="collapse-header">Comércio</h6>
+                                <a class="collapse-item" href="#">Relatórios de Venda</a>
+                                <a class="collapse-item" href="#">Relatórios de Compra</a>
+                            @else
+                                <h6 class="collapse-header">Serviço</h6>
+                                <a class="collapse-item" href="#">Gerenciar Serviços</a>
+                                <h6 class="collapse-header">Comércio</h6>
+                                <a class="collapse-item" href="#">Relatórios de Venda</a>
+                                <a class="collapse-item" href="#">Relatórios de Compra</a>
+                            @endif
+                        @elseif($usuario_empresa->status == "Pendente")
+                            <h6 class="collapse-header">Aguardando confirmação <br> da solicitação!</h6>
+                        @elseif($usuario_empresa->status == "Negado")
+                            <h6 class="collapse-header">Solicitação Negada pelo Titular!</h6>
+                        @elseif($usuario_empresa->status == "Recidido")
+                            <h6 class="collapse-header">Vínculo Finalizado!</h6>
                         @endif
                     </div>
                 </div>
