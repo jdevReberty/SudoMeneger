@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ServicoStatus: string 
 {
-    case ativo = "Ativo";
+    case ativo = "Aberto";
     case fechado = "Fechado";
     case reaberto = "Reaberto";
     case cancelado = "Cancelado";
