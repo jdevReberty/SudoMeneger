@@ -43,6 +43,127 @@
             </div>
         </div>
     </div>
+   
+    <div class="card shadow mb-4 mx-0 ">
+        @php
+            $funcionarios = $empresa->usuarioEmpresa()
+                ->where('tipo_vinculo', 'funcionario')
+                ->whereIn('status', ['ativo', 'finalizado'])
+                ->get();
+            // dd($funcionarios);
+        @endphp
+        <!-- Card Header - Accordion -->
+        <a href="#collapseFuncionario" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseFuncionario">
+            <h3 class="m-0 font-weight-bold text-primary">Funcionários</h3>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseFuncionario">
+            <div class="card-body">
+                @if ($funcionarios->isEmpty())
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Nenhum funcionário vinculado!</h6>
+                        </div>
+                    </div>
+                @else
+                    <div class="table-responsive mt-3 px-2">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome</th>
+                                    <th>Status</th>
+                                    <th>Data Inicio</th>
+                                    <th>Data Término</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($funcionarios as $key => $usuarioEmpresa)
+                                    @php
+                                        $usuario = $usuarioEmpresa->usuario;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $usuario->name }}</td>
+                                        <td>{{ $usuarioEmpresa->status }}</td>
+                                        <td>{{ $usuarioEmpresa->created_at }}</td>
+                                        <td>{{ $usuarioEmpresa->status == 'Ativo' ? '-' : $usuarioEmpresa->updated_at }}</td>
+
+                                        <td>
+                                            @if($usuarioEmpresa->status == "Ativo")
+                                                <a href="{{ route('empresa.recidir_vinculo', ['usuarioEmpresa' => $usuarioEmpresa->id]) }}" class="btn btn-sm btn-danger" title="Recidir Vínculo">
+                                                    <i class="fas fa-lock"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+                <hr>
+                <div>
+                    <h3>Solicitações</h3>
+                    @php
+                        $solicitacoes = $empresa->usuarioEmpresa()->whereIn('status', ['pendente', 'negado'])->get();
+                    @endphp
+                    @if ($solicitacoes->isEmpty())
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-warning">Não Há solicitações de vínculo</h6>
+                            </div>
+                            {{-- <div class="card-body">
+                                O titular: <strong>{{ $titular->name }}</strong> da empresa: <strong>{{ $empresa->nome }}</strong> ainda não aceitou
+                                a sua solicitação de vínculo!
+                            </div> --}}
+                        </div>
+                    @else
+                        <div class="table-responsive mt-3 px-2">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nome</th>
+                                        <th>Status</th>
+                                        <th>Data</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($solicitacoes as $key => $usuarioEmpresa)
+                                        @php
+                                           $usuario = $usuarioEmpresa->usuario;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $usuario->name }}</td>
+                                            <td>{{ $usuarioEmpresa->status }}</td>
+                                            <td>{{ $usuarioEmpresa->created_at }}</td>
+                                            <td>
+                                                @if ($usuarioEmpresa->status != 'Negado')
+                                                    <a href="{{ route('empresa.aceitar_vinculo', ['usuarioEmpresa' => $usuarioEmpresa->id]) }}" class="btn btn-sm btn-success" title="Aceitar Solicitação">
+                                                        <i class="fas fa-unlock"></i>
+                                                    </a>
+                                                    <a href="{{ route('empresa.negar_vinculo', ['usuarioEmpresa' => $usuarioEmpresa->id]) }}" class="btn btn-sm btn-danger" title="Negar Solicitação">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                @else
+                                                    <p>-</p>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card shadow mb-4 mx-0 ">
         <!-- Card Header - Accordion -->
         <a href="#collapseContato" class="d-block card-header py-3" data-toggle="collapse"
