@@ -48,7 +48,7 @@
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="#">Resetar Senha</a>
+                                    <a class="small" href="{{ route('password.send_mail') }}">Resetar Senha</a>
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="{{route("register")}}">Novo por aqui? Crie uma conta</a>
