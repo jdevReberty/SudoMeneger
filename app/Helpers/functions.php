@@ -1,10 +1,15 @@
 <?php
 
-use App\Enums\EmpresaTipoVinculo;
-use App\Enums\TipoContato;
-use App\Enums\TipoEmpresa;
-use App\Enums\TipoEndereco;
-use App\Enums\UsuarioEmpresaStatus;
+use App\Enums\{
+    EmpresaTipoVinculo, 
+    ServicoStatus, 
+    TipoContato,
+    TipoDocumento,
+    TipoEmpresa, 
+    TipoEndereco,
+    TipoMovimentacao,
+    UsuarioEmpresaStatus
+};
 
 if(!function_exists('getStatusTipoVinculoEmpresa')) {
     function getStatusTipoVinculoEmpresa(string $name) {
@@ -35,3 +40,22 @@ if(!function_exists('getStatusUsuarioEmpresa')) {
         return UsuarioEmpresaStatus::fromValue($name);
     }
 }
+
+if(!function_exists('getStatusServico')) {
+    function getStatusServico(string $name) {
+        return ServicoStatus::fromValue($name);
+    }
+}
+
+if(!function_exists('getTipoDocumento')) {
+    function getTipoDocumento(string $name) {
+        return TipoDocumento::fromValue($name);
+    }
+}
+
+if(!function_exists('getTipoMovimentacao')) {
+    function getTipoMovimentacao(string $name) {
+        return TipoMovimentacao::fromValue($name);
+    }
+}
+
