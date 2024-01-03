@@ -65,7 +65,7 @@
                                 <a class="collapse-item" href="#">Relatórios de Compra</a>
                             @else
                                 <h6 class="collapse-header">Serviço</h6>
-                                <a class="collapse-item" href="#">Gerenciar Serviços</a>
+                                <a class="collapse-item" href="{{ route('servico.index', ['empresa' => $empresa->id]) }}">Gerenciar Serviços</a>
                                 <h6 class="collapse-header">Comércio</h6>
                                 <a class="collapse-item" href="#">Relatórios de Venda</a>
                                 <a class="collapse-item" href="#">Relatórios de Compra</a>

@@ -60,7 +60,7 @@
                                     <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#" classContent="secondary disabled"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Compras" link="#" classContent="secondary disabled"/>
                                 @else
-                                    <x-dashboard.item_acao titulo="Gerenciar Serviços" link="#" classContent="secondary disabled"/>
+                                    <x-dashboard.item_acao titulo="Gerenciar Serviços" link="{{ route('servico.index', ['empresa' => $empresa->id]) }}"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#" classContent="secondary disabled"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Compras" link="#" classContent="secondary disabled"/>
                                 @endif
