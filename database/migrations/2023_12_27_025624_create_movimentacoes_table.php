@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovimentacaosTable extends Migration
+class CreateMovimentacoesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class CreateMovimentacaosTable extends Migration
             $table->foreignId('id_empresa')->nullable();
             $table->foreignId('id_servico')->nullable();
             $table->foreignId('id_usuario')->nullable();
-            $table->enum('tipo_movimentacao', array_column(TipoMovimentacao::cases(), 'name'));
+            $table->foreignId('id_tipo_movimentacao');
             $table->integer('valor');
             
             $table->timestampsTz();
@@ -27,9 +27,10 @@ class CreateMovimentacaosTable extends Migration
             $table->foreign("id_empresa")->references("id")->on("empresas");
             $table->foreign("id_servico")->references("id")->on("servicos");
             $table->foreign("id_usuario")->references("id")->on("users");
+            $table->foreign('id_tipo_movimentacao')->references('id')->on('tipo_movimentacao');
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

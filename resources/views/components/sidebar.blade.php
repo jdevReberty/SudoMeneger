@@ -56,16 +56,16 @@
                             <h6 class="collapse-header">Geral</h6>
                             <a class="collapse-item" href="{{ route('movimentacao.index', ['empresa' => $empresa->id]) }}">Financeiro</a>
                             <a class="collapse-item" href="#">Documentação</a>
-                            @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
+                            @if ($empresa->id_tipo_empresa == App\Enums\TipoEmpresa::servico->value)
                                 <h6 class="collapse-header">Serviço</h6>
                                 <a class="collapse-item" href="{{ route('servico.index', ['empresa' => $empresa->id]) }}">Gerenciar Serviços</a>
-                            @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
+                            @elseif($empresa->id_tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
                                 <h6 class="collapse-header">Comércio</h6>
                                 <a class="collapse-item" href="#">Relatórios de Venda</a>
                                 <a class="collapse-item" href="#">Relatórios de Compra</a>
                             @else
                                 <h6 class="collapse-header">Serviço</h6>
-                                <a class="collapse-item" href="#">Gerenciar Serviços</a>
+                                <a class="collapse-item" href="{{ route('servico.index', ['empresa' => $empresa->id]) }}">Gerenciar Serviços</a>
                                 <h6 class="collapse-header">Comércio</h6>
                                 <a class="collapse-item" href="#">Relatórios de Venda</a>
                                 <a class="collapse-item" href="#">Relatórios de Compra</a>

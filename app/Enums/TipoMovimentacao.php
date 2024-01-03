@@ -14,4 +14,13 @@ enum TipoMovimentacao : string
         }
         return "undefined";
     }
+
+    
+    public static function TiposMovimentacao() {
+        return [
+            (Object)['value' => 1, 'name' => self::pagamento_funcionario->value],
+            (Object)['value' => 2, 'name' => self::compra->value],
+            (Object)['value' => 3, 'name' => self::venda->value],
+        ];
+    }
 }

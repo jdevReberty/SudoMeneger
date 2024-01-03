@@ -19,13 +19,14 @@ class CreateUsuarioEmpresaTable extends Migration
             $table->id();
             $table->foreignId("id_usuario");
             $table->foreignId("id_empresa");
-            $table->enum("tipo_vinculo", array_column(EmpresaTipoVinculo::cases(), "name"));
+            $table->foreignId("id_tipo_vinculo");
             $table->enum("status", array_column(UsuarioEmpresaStatus::cases(), 'name'));
             $table->timestampsTz();
             $table->softDeletes();
 
             $table->foreign("id_usuario")->references("id")->on("users");
             $table->foreign("id_empresa")->references("id")->on("empresas");
+            $table->foreign('id_tipo_vinculo')->references('id')->on('tipo_vinculo');
         });
     }
 

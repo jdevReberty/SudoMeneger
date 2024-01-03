@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TipoMovimentacao;
+use App\Models\Assets\TipoMovimentacao as AssetsTipoMovimentacao;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,22 +17,16 @@ class Movimentacao extends Model
         'id_empresa',
         'id_servico',
         'id_usuario',
-        'tipo_movimentacao',
+        'id_tipo_movimentacao',
         'valor',
     ];
 
-    protected $cast = [
-        'tipo_movimentacao' => TipoMovimentacao::class
-    ];
-
-    public function getTipoMovimentacaoAttribute($value) {
-        return getTipoMovimentacao($value);
+    public function getIdTipoMovimentacaoAttribute($value) {
+        return getTipoMovimentacao(AssetsTipoMovimentacao::where('id', $value)->first()->nome);
     }
-
     public function getCreatedAtAttribute($value) {
         return date('d/m/Y H:m', strtotime($value));
     }
-
     public function empresa() {
         return $this->hasOne(Empresa::class, 'id', 'id_empresa');
     }
@@ -40,5 +35,8 @@ class Movimentacao extends Model
     }
     public function usuario() {
         return $this->hasOne(User::class, 'id', 'id_usuario');
+    }
+    public function tipoMovimentacao() {
+        return $this->hasOne(AssetsTipoMovimentacao::class, 'id', 'id_tipo_movimentacao');
     }
 }

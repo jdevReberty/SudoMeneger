@@ -17,9 +17,11 @@ class CreateEmpresasTable extends Migration
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
             $table->string("nome");
-            $table->enum("tipo_empresa", array_column(TipoEmpresa::cases(), "name"));
+            $table->foreignId("id_tipo_empresa");
             $table->string("cnpj");
             $table->timestampsTz();
+
+            $table->foreign('id_tipo_empresa')->references('id')->on('tipo_empresa');
         });
     }
 

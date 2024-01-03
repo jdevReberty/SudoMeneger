@@ -30,6 +30,7 @@
         @foreach (Auth::user()->usuarioEmpresas()->orderBy('id','desc')->get() as $key => $usuario_empresa)
             @php
                 $empresa = $usuario_empresa->empresa()->first();
+                // dd($empresa, $usuario_empresa->id_tipo_vinculo);
             @endphp
             @if ($usuario_empresa->status == "Ativo")
                 <div class="card shadow mb-4 mx-0 ">
@@ -41,7 +42,7 @@
                     <!-- Card Content - Collapse -->
                     <div class="collapse show" id="empresa{{ $usuario_empresa->id }}">
                         <div class="card-body">
-                            @if ($usuario_empresa->tipo_vinculo == App\Enums\EmpresaTipoVinculo::titular->value)
+                            @if ($usuario_empresa->id_tipo_vinculo == App\Enums\EmpresaTipoVinculo::titular->value)
                                 <div class="d-flex justify-content-end">
                                     <a class="btn btn-sm btn-success" href="{{ route('empresa.index', ['empresa' => $empresa->id]) }}">
                                         Gerenciar Empresa  
@@ -53,13 +54,13 @@
                             <div class="d-grid">
                                 <x-dashboard.item_acao titulo="Financeiro" link="{{ route('movimentacao.index', ['empresa' => $empresa->id]) }}"/>
                                 <x-dashboard.item_acao titulo="Documentação" link="#" classContent="secondary disabled"/>
-                                @if ($empresa->tipo_empresa == App\Enums\TipoEmpresa::servico->value)
+                                @if ($empresa->id_tipo_empresa == App\Enums\TipoEmpresa::servico->value)
                                     <x-dashboard.item_acao titulo="Gerenciar Serviços" link="{{ route('servico.index', ['empresa' => $empresa->id]) }}"/>
-                                @elseif($empresa->tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
+                                @elseif($empresa->id_tipo_empresa == App\Enums\TipoEmpresa::comercio->value)
                                     <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#" classContent="secondary disabled"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Compras" link="#" classContent="secondary disabled"/>
                                 @else
-                                    <x-dashboard.item_acao titulo="Gerenciar Serviços" link="#" classContent="secondary disabled"/>
+                                    <x-dashboard.item_acao titulo="Gerenciar Serviços" link="{{ route('servico.index', ['empresa' => $empresa->id]) }}"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Vendas" link="#" classContent="secondary disabled"/>
                                     <x-dashboard.item_acao titulo="Relatórios de Compras" link="#" classContent="secondary disabled"/>
                                 @endif
@@ -69,7 +70,7 @@
                 </div>
             @elseif($usuario_empresa->status == "Pendente")
                 @php
-                    $titular = $empresa->usuarioEmpresa()->where('tipo_vinculo', 'titular')->first()->usuario;
+                    $titular = $empresa->usuarioEmpresa()->where('id_tipo_vinculo', 1)->first()->usuario;
                 @endphp
                 <div class="card shadow mb-4 mx-0 ">
                     <!-- Card Header - Accordion -->
@@ -94,7 +95,7 @@
                 </div>
             @elseif($usuario_empresa->status == 'Negado')
                 @php
-                    $titular = $empresa->usuarioEmpresa()->where('tipo_vinculo', 'titular')->first()->usuario;
+                    $titular = $empresa->usuarioEmpresa()->where('id_tipo_vinculo', 1)->first()->usuario;
                 @endphp
                 <div class="card shadow mb-4 mx-0 ">
                     <!-- Card Header - Accordion -->
@@ -119,7 +120,7 @@
                 </div>
             @elseif($usuario_empresa->status == 'Recidido')
                 @php
-                    $titular = $empresa->usuarioEmpresa()->where('tipo_vinculo', 'titular')->first()->usuario;
+                    $titular = $empresa->usuarioEmpresa()->where('id_tipo_vinculo', 1)->first()->usuario;
                 @endphp
                 <div class="card shadow mb-4 mx-0 ">
                     <!-- Card Header - Accordion -->

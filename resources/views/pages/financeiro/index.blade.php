@@ -53,15 +53,15 @@
                             @endphp
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $movimentacao->tipo_movimentacao }}</td>
+                                <td>{{ $movimentacao->id_tipo_movimentacao }}</td>
                                 <td>{{ $movimentacao->valor }}</td>
                                 <td>
                                     {{ 
-                                        ($movimentacao->tipo_movimentacao == "Pagamento de Funcionário") 
+                                        ($movimentacao->id_tipo_movimentacao == "Pagamento de Funcionário") 
                                         ? $movimentacao->usuario->name
                                         : 
                                             (
-                                                $movimentacao->tipo_movimentacao == "Compra"
+                                                $movimentacao->id_tipo_movimentacao == "Compra"
                                                 ? "Externo"
                                                 : $empresa->nome
                                             )

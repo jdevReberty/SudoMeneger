@@ -51,7 +51,7 @@
         <li class="nav-item dropdown no-arrow mx-1">
             @php
                 $titular = Auth::user()->usuarioEmpresas()
-                    ->where('tipo_vinculo', 'titular')
+                    ->where('id_tipo_vinculo', 1)
                     ->where('status', 'ativo')
                     ->first();
                 if($titular != null) {

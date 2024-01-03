@@ -25,7 +25,7 @@ class UsuarioServices {
         $usuario = $usuario ?? Auth::user();
         if(
             $usuario->usuarioEmpresas()
-                ->where('tipo_vinculo', 'titular')
+                ->where('id_tipo_vinculo', 1)
                 ->where('status', 'ativo')
                 ->get()->isEmpty()
         ) {

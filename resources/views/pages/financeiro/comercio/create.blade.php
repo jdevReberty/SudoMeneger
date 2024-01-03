@@ -17,11 +17,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="">Tipo de Movimentação</label>
-                    <select class="form-control" name="tipo_movimentacao" id="tipo_movimentacao" required>
+                    <select class="form-control" name="id_tipo_movimentacao" id="id_tipo_movimentacao" required>
                         <option selected disabled>Selecione o tipo de movimentação</option>
-                        @foreach (App\Enums\TipoMovimentacao::cases() as $case)
-                            @if ($case->name != 'pagamento_funcionario')
-                                <option value="{{$case->name}}">{{$case->value}}</option>
+                        @foreach (App\Enums\TipoMovimentacao::TiposMovimentacao() as $case)
+                            @if ($case->value != 1)
+                                <option value="{{$case->value}}">{{$case->name}}</option>
                             @endif
                         @endforeach
                     </select>

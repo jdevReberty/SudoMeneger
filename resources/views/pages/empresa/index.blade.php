@@ -37,7 +37,7 @@
                         <label for="tipo_empresa">Tipo de Empresa</label>
                         <input type="text" class="form-control form-control-user"
                             id="tipo_empresa" placeholder="Tipo de Empresa"
-                            value="{{ $empresa->tipo_empresa ?? old('tipo_empresa')}}" required readonly>
+                            value="{{ $empresa->id_tipo_empresa ?? old('tipo_empresa')}}" required readonly>
                     </div>
                 </form>
             </div>
@@ -47,7 +47,7 @@
     <div class="card shadow mb-4 mx-0 ">
         @php
             $funcionarios = $empresa->usuarioEmpresa()
-                ->where('tipo_vinculo', 'funcionario')
+                ->where('id_tipo_vinculo', 2)
                 ->whereIn('status', ['ativo', 'finalizado'])
                 ->get();
             // dd($funcionarios);
