@@ -29,8 +29,8 @@
                             <label for="">Tipo de Empresa</label>
                             <select class="form-control" name="tipo_empresa" id="tipo_empresa" required>
                                 <option disabled selected>Selecione o tipo de Empresa</option>
-                                @foreach (App\Enums\TipoEmpresa::cases() as $case)
-                                    <option value="{{$case->name}}">{{$case->value}}</option>
+                                @foreach (App\Enums\TipoEmpresa::TiposEmpresa() as $tipoEmpresa)
+                                    <option value="{{$tipoEmpresa->value}}">{{$tipoEmpresa->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -65,7 +65,7 @@
                         @foreach ($search->empresas as $key => $empresa)
                             @php
                                 $usuario_titular = $empresa->usuarioEmpresa()
-                                            ->where('tipo_vinculo', 'titular')->first()
+                                            ->where('id_tipo_vinculo', 1)->first()
                                             ->usuario()->first();
                             @endphp
                             <tr>
