@@ -32,7 +32,7 @@ class MovimentacaoController extends Controller
     public function store_pagamento_funcionario(Request $request, Empresa $empresa) {
         try {
             $request['id_empresa'] = $empresa->id;
-            $request['id_tipo_movimentacao'] = 3; //"pagamento_funcionario"
+            $request['id_tipo_movimentacao'] = 1; //"pagamento_funcionario"
             $this->movimentacao->create($request->toArray());
             return redirect()->route('movimentacao.index', ['empresa' => $empresa->id]);
         } catch (\Throwable $th) {
