@@ -19,7 +19,7 @@ class MovimentacaoController extends Controller
     public function create_pagamento_funcionario(Empresa $empresa) {
         try {
             $funcionarios = $empresa->usuarioEmpresa()
-                ->where('tipo_vinculo', 'funcionario')
+                ->where('id_tipo_vinculo', 2)
                 ->where('status', 'ativo')
                 ->get();
             if($funcionarios->count() == 0) throw new \Exception("Não é possível cadastrar uma movimentação de pagamento quando não há funcionários vinculados");
@@ -32,7 +32,7 @@ class MovimentacaoController extends Controller
     public function store_pagamento_funcionario(Request $request, Empresa $empresa) {
         try {
             $request['id_empresa'] = $empresa->id;
-            $request['tipo_movimentacao'] = "pagamento_funcionario";
+            $request['id_tipo_movimentacao'] = 3; //"pagamento_funcionario"
             $this->movimentacao->create($request->toArray());
             return redirect()->route('movimentacao.index', ['empresa' => $empresa->id]);
         } catch (\Throwable $th) {

@@ -68,7 +68,7 @@ class LoginController extends Controller
     public function home() {
         $contemEmpresa = $this->usuarioService->contemEmpresa();
         $podeVincular = Auth::user()->usuarioEmpresas()
-            ->whereIn('tipo_vinculo', ['titular', 'funcionario'])
+            ->whereIn('id_tipo_vinculo', [1, 2]) // 'titular, 'funcionario'
             ->whereIn('status', ['ativo', 'pendente'])->get()->count() < 2;
         return view('welcome', compact('contemEmpresa', 'podeVincular'));
     }

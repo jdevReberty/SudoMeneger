@@ -27,7 +27,7 @@ class EmpresaController extends Controller
     public function create(Request $request) {
         try {
             $podeVincular = Auth::user()->usuarioEmpresas()
-                ->whereIn('tipo_vinculo', ['titular', 'funcionario'])
+                ->whereIn('id_tipo_vinculo', ['1', '2'])
                 ->whereIn('status', ['ativo, pendente'])->get()->count() < 2;
 
             if($podeVincular) {
@@ -54,13 +54,13 @@ class EmpresaController extends Controller
             DB::beginTransaction();
             $empresa = $this->empresa->create([
                 "nome" => $request->name,
-                "tipo_empresa" => $request->tipo_empresa,
+                "id_tipo_empresa" => $request->tipo_empresa,
                 "cnpj" => $request->cnpj,
             ]);
             $this->usuarioEmpresa->create([
                 "id_usuario" => Auth::user()->id,
                 "id_empresa" => $empresa->id,
-                "tipo_vinculo" => EmpresaTipoVinculo::titular->name, 
+                "id_tipo_vinculo" => 1, //titular
                 "status" => UsuarioEmpresaStatus::ativo->name,
             ]);
             DB::commit();
@@ -83,7 +83,7 @@ class EmpresaController extends Controller
                 $this->usuarioEmpresa->create([
                     "id_usuario" => Auth::user()->id,
                     "id_empresa" => $empresa->id,
-                    "tipo_vinculo" => EmpresaTipoVinculo::funcionario->name, 
+                    "id_tipo_vinculo" => 2, //funcionario
                     "status" => UsuarioEmpresaStatus::pendente->name,
                 ]);
             } elseif($current->status == 'Negado') {
@@ -137,7 +137,7 @@ class EmpresaController extends Controller
     public function store_contato(Request $request, Empresa $empresa) {
         try {
             $request['id_empresa'] = $empresa->id;
-            $request['tipo_contato'] = 'profissional';
+            $request['id_tipo_endereco_contato'] = 2; //profissional
             $this->contato->create($request->toArray());
             return redirect()->route('empresa.index', ['empresa' => $empresa->id]);
         } catch (\Throwable $th) {
@@ -152,7 +152,7 @@ class EmpresaController extends Controller
     public function store_endereco(Request $request, Empresa $empresa) {
         try {
             $request['id_empresa'] = $empresa->id;
-            $request['tipo_endereco'] = 'profissional';
+            $request['id_tipo_endereco_contato'] = 2; //profissional
             $this->endereco->create($request->toArray());
             return redirect()->route('empresa.index', ['empresa' => $empresa->id]);
         } catch (\Throwable $th) {

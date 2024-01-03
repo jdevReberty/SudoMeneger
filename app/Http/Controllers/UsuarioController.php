@@ -27,7 +27,7 @@ class UsuarioController extends Controller
     public function store_contato(Request $request, User $usuario) {
         try {
             $request['id_usuario'] = $usuario->id;
-            $request['tipo_contato'] = 'pessoal';
+            $request['id_tipo_endereco_contato'] = 1; //'pessoal'
             $this->contato->create($request->toArray());
             return redirect()->route('usuario.index', ['usuario' => $usuario->id]);
         } catch (\Throwable $th) {
@@ -40,7 +40,7 @@ class UsuarioController extends Controller
     public function store_endereco(Request $request, User $usuario) {
         try {
             $request['id_usuario'] = $usuario->id;
-            $request['tipo_endereco'] = 'pessoal';
+            $request['id_tipo_endereco_contato'] = 1; //'pessoal'
             $this->endereco->create($request->toArray());
             return redirect()->route('usuario.index', ['usuario' => $usuario->id]);
         } catch (\Throwable $th) {
