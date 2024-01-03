@@ -18,12 +18,13 @@ class CreateDocumentacaosTable extends Migration
             $table->id();
             $table->foreignId('id_empresa')->nullable();
             $table->foreignId('id_servico')->nullable();
-            $table->enum("tipo_documento", array_column(TipoDocumento::cases(), 'name'));
+            $table->foreignId("id_tipo_documentacao");
             $table->text("path")->nullable();
             $table->timestampsTz();
 
             $table->foreign("id_empresa")->references("id")->on("empresas");
             $table->foreign("id_servico")->references("id")->on("servicos");
+            $table->foreign('id_tipo_documentacao')->references('id')->on('tipo_documentacao');
         });
     }
 
